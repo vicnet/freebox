@@ -4,7 +4,7 @@ from freebox import freebox
 
 import sys, os
 from ConfigParser import ConfigParser
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 class WifiParam(object):
     _cfg = ConfigParser()
@@ -70,6 +70,12 @@ class WifiParam(object):
         self.set(name, value)
 
 cfg = WifiParam()
+
+if (len(sys.argv)>1):
+    freebox.activateWifi(True)
+    cfg.wifi_datetime = datetime.combine(datetime.now(),time(int(sys.argv[1])))
+    print 'Activate until',cfg.wifi_datetime
+    exit(0)
 
 if not freebox.isWifiActive():
     # nothing to do
